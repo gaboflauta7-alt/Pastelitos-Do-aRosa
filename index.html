@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<title>Pastelitos Doña Rosa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050505;
+    --surface: #0f0f0f;
+    --surface-light: #1a1a1a;
+    --gold: #d4af37;
+    --gold-light: #f3e5ab;
+    --gold-muted: #8a7325;
+    --text-main: #f5f5f5;
+    --text-muted: #888888;
+    --border: #2a2a2a;
+    --border-gold: rgba(212, 175, 55, 0.3);
+    --wa-green: #128c7e;
+    --excel-green: #1d6f42;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg);
+    color: var(--text-main);
+    padding-bottom: 160px;
+    min-height: 100vh;
+    background-image: radial-gradient(circle at top center, #111 0%, #050505 70%);
+  }
+
+  /* HEADER DE LUJO CON FOTO */
+  header {
+    text-align: center;
+    padding: 30px 20px;
+    position: relative;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  
+  /* Contenedor para alinear foto y texto */
+  .brand-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Separación entre foto y título */
+  }
+
+  /* Estilo de la foto circular con borde dorado */
+  .logo-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    background-color: #1a1a1a;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--gold);
+    margin: 0;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
+    text-align: left;
+  }
+  
+  .subtitle {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-weight: 500;
+  }
+
+  /* NAVEGACIÓN (TABS) */
+  .tabs {
+    display: flex;
+    background: rgba(15, 15, 15, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid var(--border);
+    padding: 0 10px;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 18px 5px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s ease;
+  }
+  .tab-btn.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  }
+
+  /* CONTENIDO */
+  .section-content { display: none; padding: 25px 20px; max-width: 650px; margin: 0 auto; animation: fadeIn 0.4s ease; }
+  .section-content.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* INPUTS PREMIUM */
+  .input-group { margin-bottom: 20px; }
+  .input-group label {
+    display: block; font-size: 11px; color: var(--gold); margin-bottom: 8px; 
+    text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;
+  }
+  input[type="text"], input[type="date"], input[type="number"] {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+  }
+  input:focus { border-color: var(--gold); box-shadow: inset 0 2px 5px rgba(0,0,0,0.5), 0 0 10px rgba(212, 175, 55, 0.1); }
+  input[type="date"] { color-scheme: dark; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; }
+
+  /* FILAS DE PRODUCTOS */
+  .item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .item-row:last-child { border-bottom: none; }
+  .item-name { flex: 1; font-size: 15px; font-weight: 400; color: #ddd; }
+  
+  /* SISTEMA DE CANTIDAD Y UNIDADES */
+  .qty-wrapper {
+    display: flex;
+    align-items: center;
+    background: var(--surface-light);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .qty-wrapper:focus-within { border-color: var(--gold); }
+  
+  .item-qty {
+    width: 70px;
+    text-align: right;
+    background: transparent;
+    border: none;
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 16px;
+    padding: 12px 8px;
+    outline: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .item-qty::placeholder { color: #444; font-weight: 400; }
+
+  .unit-label {
+    padding: 0 12px 0 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+    pointer-events: none;
+  }
+
+  .unit-select {
+    background: transparent;
+    border: none;
+    border-left: 1px solid var(--border);
+    color: var(--gold-light);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 12px 10px;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+  }
+  .unit-select option { background: var(--surface); color: white; }
+
+  /* ACORDEÓN MATERIA PRIMA */
+  .accordion {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: border-color 0.3s;
+  }
+  .accordion.open { border-color: var(--border-gold); }
+  .accordion-header {
+    width: 100%; padding: 20px; background: transparent; border: none;
+    color: var(--gold-light); text-align: left; font-family: 'Playfair Display', serif; font-size: 18px;
+    display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+    transition: background 0.3s;
+  }
+  .accordion-header:hover { background: rgba(255,255,255,0.02); }
+  .accordion-header span { transition: transform 0.3s; font-size: 14px; color: var(--gold); }
+  .accordion.open .accordion-header span { transform: rotate(180deg); }
+  .accordion-body { display: none; padding: 0 20px 20px; }
+  .accordion.open .accordion-body { display: block; animation: fadeIn 0.3s ease; }
+
+  /* BOTONES AGREGAR */
+  .btn-add {
+    width: 100%; padding: 15px; background: transparent;
+    border: 1px dashed var(--gold-muted); color: var(--gold);
+    border-radius: 8px; margin-top: 20px; cursor: pointer; 
+    font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    transition: all 0.3s;
+  }
+  .btn-add:hover { background: rgba(212, 175, 55, 0.05); border-style: solid; }
+
+  /* BARRA INFERIOR FIJA */
+  .bottom-bar {
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid var(--border-gold);
+    padding: 15px 20px calc(15px + env(safe-area-inset-bottom));
+    z-index: 100;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
+  }
+  
+  .checks-container {
+    display: flex; justify-content: space-between; margin-bottom: 15px;
+    font-size: 12px; font-weight: 500; color: #ccc;
+  }
+  .checks-container label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .checks-container input[type="checkbox"] {
+    appearance: none; width: 18px; height: 18px; border: 1px solid var(--gold-muted); border-radius: 4px;
+    background: transparent; cursor: pointer; position: relative; transition: all 0.2s;
+  }
+  .checks-container input[type="checkbox"]:checked { background: var(--gold); border-color: var(--gold); }
+  .checks-container input[type="checkbox"]:checked::after {
+    content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    color: #000; font-size: 12px; font-weight: bold;
+  }
+
+  .action-btns { display: flex; gap: 12px; }
+  .btn-action {
+    flex: 1; padding: 16px; border: none; border-radius: 8px;
+    font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+    color: white; cursor: pointer; transition: transform 0.1s, opacity 0.2s;
+  }
+  .btn-action:active { transform: scale(0.98); opacity: 0.9; }
+  .btn-wa { background: linear-gradient(135deg, #1faa8f, #128c7e); box-shadow: 0 4px 15px rgba(18, 140, 126, 0.3); }
+  .btn-excel { background: linear-gradient(135deg, #278c54, #1d6f42); box-shadow: 0 4px 15px rgba(29, 111, 66, 0.3); }
+
+  /* MODAL */
+  .modal {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(5px); z-index: 300; align-items: center; justify-content: center;
+  }
+  .modal.visible { display: flex; }
+  .modal-content {
+    background: var(--surface); border: 1px solid var(--gold); padding: 30px; border-radius: 12px;
+    width: 90%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
+  .modal-content h3 { margin: 0 0 20px; font-family: 'Playfair Display', serif; color: var(--gold); font-size: 22px; font-weight: 500; }
+  .modal-btns { display: flex; gap: 12px; margin-top: 25px; }
+  .modal-btns button {
+    flex: 1; padding: 14px; border: none; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 13px; text-transform: uppercase; cursor: pointer; transition: all 0.2s;
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed; top: 30px; left: 50%; transform: translate(-50%, -20px);
+    background: var(--gold); color: #000; padding: 12px 24px; border-radius: 30px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.5px; opacity: 0; pointer-events: none; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 400;
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-container">
+    <!-- Aquí va la foto. Asegúrate de que el archivo se llame logo.jpg -->
+    <img src="logo.jpg" alt="Logo" class="logo-img">
+    <h1>Pastelitos Doña Rosa</h1>
+  </div>
+  <div class="subtitle">Gestión de Producción y Despacho</div>
+</header>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('despacho', this)">Despacho</button>
+  <button class="tab-btn" onclick="switchTab('existencia', this)">Existencia</button>
+  <button class="tab-btn" onclick="switchTab('materia', this)">Materia Prima</button>
+</div>
+
+<!-- SECCIÓN: DESPACHO -->
+<div id="sec-despacho" class="section-content active">
+  <div class="input-group">
+    <label>Fecha del Despacho</label>
+    <input type="date" id="fecha-despacho" onchange="updateFecha('despacho', this.value)">
+  </div>
+  <div class="input-group">
+    <label>Ruta / Lugar de Entrega</label>
+    <input type="text" id="ruta-despacho" placeholder="Ingrese destino..." oninput="state.despacho.ruta = this.value; saveState()">
+  </div>
+  
+  <div id="lista-despacho"></div>
+  <button class="btn-add" onclick="openModal('despacho')">+ Añadir Sabor</button>
+</div>
+
+<!-- SECCIÓN: EXISTENCIA -->
+<div id="sec-existencia" class="section-content">
+  <div class="input-group">
+    <label>Fecha de Inventario</label>
+    <input type="date" id="fecha-existencia" onchange="updateFecha('existencia', this.value)">
+  </div>
+
+  <div id="lista-existencia"></div>
+  <button class="btn-add" onclick="openModal('existencia')">+ Añadir Sabor</button>
+</div>
+
+<!-- SECCIÓN: MATERIA PRIMA -->
+<div id="sec-materia" class="section-content">
+  <div class="input-group">
+    <label>Fecha de Actualización</label>
+    <input type="date" id="fecha-materia" onchange="updateFecha('materia', this.value)">
+  </div>
+
+  <div class="accordion open" id="acc-elaboracion">
+    <button class="accordion-header" onclick="toggleAccordion('acc-elaboracion')">
+      <span>Elaboración</span> <span>▼</span>
+    </button>
+    <div class="accordion-body">
+      <div id="lista-elaboracion"></div>
+      <button class="btn-add" onclick="openModal('elaboracion')">+ Añadir Ingrediente</button>
+    </div>
+  </div>
+
+  <div class="accordion" id="acc-rellenos">
+    <button class="accordion-header" onclick="toggleAccordion('acc-rellenos')">
+      <span>Rellenos</span> <span>▼</span>
+    </button>
+    <div class="accordion-body">
+      <div id="lista-rellenos"></div>
+      <button class="btn-add" onclick="openModal('rellenos')">+ Añadir Relleno</button>
+    </div>
+  </div>
+
+  <div class="accordion" id="acc-extras">
+    <button class="accordion-header" onclick="toggleAccordion('acc-extras')">
+      <span>Extras</span> <span>▼</span>
+    </button>
+    <div class="accordion-body">
+      <div id="lista-extras"></div>
+      <button class="btn-add" onclick="openModal('extras')">+ Añadir Extra</button>
+    </div>
+  </div>
+</div>
+
+<!-- BARRA INFERIOR -->
+<div class="bottom-bar">
+  <div class="checks-container">
+    <label><input type="checkbox" id="check-despacho" checked> Despacho</label>
+    <label><input type="checkbox" id="check-existencia" checked> Existencia</label>
+    <label><input type="checkbox" id="check-materia" checked> Materia Prima</label>
+  </div>
+  <div class="action-btns">
+    <button class="btn-action btn-wa" onclick="sendWhatsApp()">WhatsApp</button>
+    <button class="btn-action btn-excel" onclick="downloadExcel()">Excel</button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal-add">
+  <div class="modal-content">
+    <h3 id="modal-title">Añadir Elemento</h3>
+    <input type="text" id="modal-input" placeholder="Escriba el nombre aquí...">
+    <div class="modal-btns">
+      <button onclick="closeModal()" style="background:#222; color:#aaa;">Cancelar</button>
+      <button onclick="confirmAdd()" style="background:var(--gold); color:#000;">Añadir</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const DEFAULT_FLAVORS = ['Andino', 'Mechada', 'Pollo', 'Champiñon', 'Queso', 'Jamón y Queso', 'Ajo Porro', 'Pizza', 'Guayaba con queso', 'Maracuchos', 'Molida', 'GTM', 'Tequeños', 'Pasapalos'];
+  const DEFAULT_ELABORACION = ['Harina', 'Margarina'];
+  const DEFAULT_RELLENOS = ['Carne Molida', 'Para Mechar', 'Pollo', 'Queso', 'Jamón', 'Champiñón', 'Mozzarella'];
+  const DEFAULT_EXTRAS = ['Bicarbonato', 'Sal', 'Azúcar', 'Especias', 'Cilantro', 'Celeri', 'Cebollín'];
+
+  let state = {
+    fechas: { despacho: '', existencia: '', materia: '' },
+    despacho: { ruta: '', items: [] },
+    existencia: [],
+    materia: { elaboracion: [], rellenos: [], extras: [] }
+  };
+
+  let modalContext = { type: '' };
+
+  function init() {
+    const saved = localStorage.getItem('pastelitos_rosa_v2');
+    if(saved) {
+      state = JSON.parse(saved);
+    } else {
+      const hoy = new Date().toISOString().slice(0,10);
+      state.fechas = { despacho: hoy, existencia: hoy, materia: hoy };
+      
+      state.despacho.items = DEFAULT_FLAVORS.map(n => ({ nombre: n, cant: '' }));
+      state.existencia = DEFAULT_FLAVORS.map(n => ({ nombre: n, cant: '' }));
+      
+      state.materia.elaboracion = DEFAULT_ELABORACION.map(n => ({ nombre: n, cant: '', unidad: 'Kilos' }));
+      state.materia.rellenos = DEFAULT_RELLENOS.map(n => ({ nombre: n, cant: '', unidad: 'Kilos' }));
+      state.materia.extras = DEFAULT_EXTRAS.map(n => ({ nombre: n, cant: '', unidad: 'Gramos' }));
+    }
+
+    document.getElementById('fecha-despacho').value = state.fechas.despacho || hoy;
+    document.getElementById('fecha-existencia').value = state.fechas.existencia || hoy;
+    document.getElementById('fecha-materia').value = state.fechas.materia || hoy;
+    document.getElementById('ruta-despacho').value = state.despacho.ruta || '';
+
+    renderAll();
+  }
+
+  function saveState() {
+    localStorage.setItem('pastelitos_rosa_v2', JSON.stringify(state));
+  }
+
+  function renderList(containerId, items, sectionKey, isMateria = false, subSection = '') {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    
+    items.forEach((item, index) => {
+      const row = document.createElement('div');
+      row.className = 'item-row';
+      
+      let qtyHtml = '';
+      if(isMateria) {
+        qtyHtml = `
+          <div class="qty-wrapper">
+            <input type="number" class="item-qty" placeholder="0" value="${item.cant}" 
+              oninput="updateQty('${sectionKey}', '${subSection}', ${index}, this.value)">
+            <select class="unit-select" onchange="updateUnit('${subSection}', ${index}, this.value)">
+              <option value="Kilos" ${item.unidad === 'Kilos' ? 'selected' : ''}>Kilos</option>
+              <option value="Bultos" ${item.unidad === 'Bultos' ? 'selected' : ''}>Bultos</option>
+              <option value="Gramos" ${item.unidad === 'Gramos' ? 'selected' : ''}>Gramos</option>
+            </select>
+          </div>
+        `;
+      } else {
+        qtyHtml = `
+          <div class="qty-wrapper">
+            <input type="number" class="item-qty" placeholder="0" value="${item.cant}" 
+              oninput="updateQty('${sectionKey}', '${subSection}', ${index}, this.value)">
+            <span class="unit-label">Bandejas</span>
+          </div>
+        `;
+      }
+
+      row.innerHTML = `
+        <span class="item-name">${item.nombre}</span>
+        ${qtyHtml}
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  function renderAll() {
+    renderList('lista-despacho', state.despacho.items, 'despacho');
+    renderList('lista-existencia', state.existencia, 'existencia');
+    
+    renderList('lista-elaboracion', state.materia.elaboracion, 'materia', true, 'elaboracion');
+    renderList('lista-rellenos', state.materia.rellenos, 'materia', true, 'rellenos');
+    renderList('lista-extras', state.materia.extras, 'materia', true, 'extras');
+  }
+
+  function updateFecha(section, val) {
+    state.fechas[section] = val;
+    saveState();
+  }
+
+  function updateQty(section, subSection, index, val) {
+    if(section === 'despacho') state.despacho.items[index].cant = val;
+    else if(section === 'existencia') state.existencia[index].cant = val;
+    else if(section === 'materia') state.materia[subSection][index].cant = val;
+    saveState();
+  }
+
+  function updateUnit(subSection, index, val) {
+    state.materia[subSection][index].unidad = val;
+    saveState();
+  }
+
+  function switchTab(tabId, btnElement) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.section-content').forEach(sec => sec.classList.remove('active'));
+    
+    btnElement.classList.add('active');
+    document.getElementById('sec-' + tabId).classList.add('active');
+  }
+
+  function toggleAccordion(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function openModal(type) {
+    modalContext.type = type;
+    const modal = document.getElementById('modal-add');
+    const title = document.getElementById('modal-title');
+    const input = document.getElementById('modal-input');
+    
+    let txt = '';
+    if(type === 'despacho') txt = 'Nuevo Sabor en Despacho';
+    else if(type === 'existencia') txt = 'Nuevo Sabor en Inventario';
+    else if(type === 'elaboracion') txt = 'Nuevo Ingrediente (Elaboración)';
+    else if(type === 'rellenos') txt = 'Nuevo Relleno';
+    else if(type === 'extras') txt = 'Nuevo Ingrediente Extra';
+
+    title.textContent = txt;
+    input.value = '';
+    modal.classList.add('visible');
+    setTimeout(() => input.focus(), 100);
+  }
+
+  function closeModal() {
+    document.getElementById('modal-add').classList.remove('visible');
+  }
+
+  function confirmAdd() {
+    const val = document.getElementById('modal-input').value.trim();
+    if(!val) return;
+
+    const type = modalContext.type;
+    const nuevoItem = { nombre: val, cant: '' };
+
+    if(type === 'despacho') state.despacho.items.push(nuevoItem);
+    else if(type === 'existencia') state.existencia.push(nuevoItem);
+    else if(type === 'elaboracion') {
+      nuevoItem.unidad = 'Kilos';
+      state.materia.elaboracion.push(nuevoItem);
+    }
+    else if(type === 'rellenos') {
+      nuevoItem.unidad = 'Kilos';
+      state.materia.rellenos.push(nuevoItem);
+    }
+    else if(type === 'extras') {
+      nuevoItem.unidad = 'Gramos';
+      state.materia.extras.push(nuevoItem);
+    }
+
+    saveState();
+    renderAll();
+    closeModal();
+  }
+
+  function sendWhatsApp() {
+    const sendDespacho = document.getElementById('check-despacho').checked;
+    const sendExistencia = document.getElementById('check-existencia').checked;
+    const sendMateria = document.getElementById('check-materia').checked;
+
+    let msg = "¡Hola! Le informamos el estatus del día de hoy:\n\n";
+    let hasContent = false;
+    
+    if(sendDespacho) {
+      const items = state.despacho.items.filter(i => parseFloat(i.cant) > 0);
+      if(items.length > 0) {
+        hasContent = true;
+        msg += `📌 *Despacho Pastelitos Doña Rosa* 📌\n`;
+        msg += `📅 Fecha: ${formatDate(state.fechas.despacho)}\n`;
+        msg += `📍 Ruta: ${state.despacho.ruta || 'No especificada'}\n\n`;
+        items.forEach(i => msg += `🔸 ${i.nombre}: ${i.cant} Bandejas\n`);
+        msg += `\n`;
+      }
+    }
+
+    if(sendExistencia) {
+      const items = state.existencia.filter(i => parseFloat(i.cant) > 0);
+      if(items.length > 0) {
+        hasContent = true;
+        msg += `📌 *Existencia en Fábrica* 📌\n`;
+        msg += `📅 Fecha: ${formatDate(state.fechas.existencia)}\n\n`;
+        items.forEach(i => msg += `🔸 ${i.nombre}: ${i.cant} Bandejas\n`);
+        msg += `\n`;
+      }
+    }
+
+    if(sendMateria) {
+      let matMsg = "";
+      const elab = state.materia.elaboracion.filter(i => parseFloat(i.cant) > 0);
+      const rell = state.materia.rellenos.filter(i => parseFloat(i.cant) > 0);
+      const ext = state.materia.extras.filter(i => parseFloat(i.cant) > 0);
+
+      if(elab.length || rell.length || ext.length) {
+        hasContent = true;
+        matMsg += `📌 *Materia Prima* 📌\n`;
+        matMsg += `📅 Fecha: ${formatDate(state.fechas.materia)}\n\n`;
+        
+        if(elab.length) {
+          matMsg += `*Elaboración:*\n`;
+          elab.forEach(i => matMsg += `🔸 ${i.nombre}: ${i.cant} ${i.unidad}\n`);
+          matMsg += `\n`;
+        }
+        if(rell.length) {
+          matMsg += `*Rellenos:*\n`;
+          rell.forEach(i => matMsg += `🔸 ${i.nombre}: ${i.cant} ${i.unidad}\n`);
+          matMsg += `\n`;
+        }
+        if(ext.length) {
+          matMsg += `*Extras:*\n`;
+          ext.forEach(i => matMsg += `🔸 ${i.nombre}: ${i.cant} ${i.unidad}\n`);
+          matMsg += `\n`;
+        }
+        msg += matMsg;
+      }
+    }
+
+    if(!hasContent) {
+      showToast("No hay cantidades ingresadas para enviar.");
+      return;
+    }
+
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  function downloadExcel() {
+    const sendDespacho = document.getElementById('check-despacho').checked;
+    const sendExistencia = document.getElementById('check-existencia').checked;
+    const sendMateria = document.getElementById('check-materia').checked;
+
+    let csvContent = "\uFEFF"; 
+    csvContent += "SECCION;CATEGORIA;PRODUCTO;CANTIDAD;UNIDAD;FECHA;RUTA\n";
+
+    if(sendDespacho) {
+      state.despacho.items.filter(i => parseFloat(i.cant) > 0).forEach(i => {
+        csvContent += `DESPACHO;;${i.nombre};${i.cant};Bandejas;${state.fechas.despacho};${state.despacho.ruta}\n`;
+      });
+    }
+
+    if(sendExistencia) {
+      state.existencia.filter(i => parseFloat(i.cant) > 0).forEach(i => {
+        csvContent += `EXISTENCIA;;${i.nombre};${i.cant};Bandejas;${state.fechas.existencia};\n`;
+      });
+    }
+
+    if(sendMateria) {
+      state.materia.elaboracion.filter(i => parseFloat(i.cant) > 0).forEach(i => {
+        csvContent += `MATERIA PRIMA;Elaboracion;${i.nombre};${i.cant};${i.unidad};${state.fechas.materia};\n`;
+      });
+      state.materia.rellenos.filter(i => parseFloat(i.cant) > 0).forEach(i => {
+        csvContent += `MATERIA PRIMA;Rellenos;${i.nombre};${i.cant};${i.unidad};${state.fechas.materia};\n`;
+      });
+      state.materia.extras.filter(i => parseFloat(i.cant) > 0).forEach(i => {
+        csvContent += `MATERIA PRIMA;Extras;${i.nombre};${i.cant};${i.unidad};${state.fechas.materia};\n`;
+      });
+    }
+
+    if(csvContent.split('\n').length <= 2) {
+      showToast("No hay datos seleccionados para exportar.");
+      return;
+    }
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Reporte_DoñaRosa_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  function formatDate(iso) {
+    if(!iso) return '--/--/----';
+    const p = iso.split('-');
+    return `${p[2]}/${p[1]}/${p[0]}`;
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  init();
+</script>
+</body>
+</html>
